@@ -4,10 +4,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
 
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
+
+import 'second_file.dart';
 
 int id = 0;
 
@@ -71,6 +74,7 @@ void notificationTapBackground(NotificationResponse notificationResponse) {
 /// Please download the complete example app from the GitHub repository where
 /// all the setup has been done
 Future<void> main() async {
+
   // needed if you intend to initialize in the `main` function
   WidgetsFlutterBinding.ensureInitialized();
   await _configureLocalTimeZone();
@@ -175,16 +179,17 @@ Future<void> main() async {
     },
     onDidReceiveBackgroundNotificationResponse: notificationTapBackground,
   );
+  //end set
+  
   runApp(
-    MaterialApp(
+    ProviderScope( child: MaterialApp(
       initialRoute: initialRoute,
       routes: <String, WidgetBuilder>{
         HomePage.routeName: (_) => HomePage(notificationAppLaunchDetails),
-       
-       
+
        // SecondPage.routeName: (_) => SecondPage(selectedNotificationPayload)
       },
-    ),
+    ),),
   );
 }
 
@@ -316,6 +321,13 @@ class _HomePageState extends State<HomePage> {
             child: Center(
               child: Column(
                 children: <Widget>[
+              
+
+              ElevatedButton(
+                onPressed: ()
+                {
+                 Navigator.of(context).push(MaterialPageRoute(builder: (context) => SecondPage()));
+                 }, child: Text('Second Page')) ,
            
               
                   if (kIsWeb || !Platform.isLinux) ...<Widget>[
